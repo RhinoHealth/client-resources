@@ -18,10 +18,9 @@ def convert_dcm_image_to_jpg(name):
 
 def dataset_dcm_to_jpg(dataset_df):
 	input_dir = '/input/dicom_data/'
-	output_dir = '/output/file_data/'
+	output_dir = '/output/0/file_data/'
 	dcm_list = glob.glob(input_dir + '/*/*.dcm')
 
-	dataset_df['JPG_file'] = 'Nan'
 	for dcm_file in dcm_list:
 		image = convert_dcm_image_to_jpg(dcm_file)
 		jpg_file_name = dcm_file.split('/')[-1].split('.dcm')[0] + '.jpg'
@@ -52,5 +51,5 @@ if __name__ == '__main__':
 	dataset = dataset_dcm_to_jpg(dataset)
 
 	# Write dataset to /output
-	dataset.to_csv('/output/dataset.csv', index=False)
+	dataset.to_csv('/output/0/dataset.csv', index=False)
 
