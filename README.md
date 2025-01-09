@@ -16,4 +16,4 @@ Get started today and see how Rhino Health's client resources can help you build
 
 
 ## Getting Help
-For additional support, check out [docs.rhinohealth.com](https://docs.rhinohealth.com/hc/en-us) or reach out to [support@rhinohealth.com](mailto:support@rhinohealth.com).
+For additional support, check out <a href="https://docs.rhinohealth.com/hc/en-us" target="_blank">docs.rhinohealth.com</a> or reach out to [support@rhinohealth.com](mailto:support@rhinohealth.com).
