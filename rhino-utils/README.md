@@ -30,6 +30,7 @@ Run each tool with `-h` or `--help` for usage details.
 4. `nvflare-docker-run.sh`: Run FL training with your code using, locally, using Docker.  Recommended: `--auto`. For more usage detail, see [Using the NVFlare Docker Run Script](#using-the-nvflare-docker-run-script).
 5. `nvflare-docker-run-inference.sh`: Run inference with your code on a single dataset. For more usage detail, see [Using the Docker Push Script](#using-the-docker-push-script).
 6. `run_inference.sh`: A utility Shell script used to help facilitate the `nvflare-docker-run-inference.sh` script
+7. `upload-file-to-s3.sh`: A utility Shell script to make files available to FCP at run time, so they can be used at when running your code object without having to re-create it, making your code-object containers smaller, faster, and re-usable. See [this example](examples/rhino-sdk/runtime-external_files.ipynb) for how to use this utility in context.
 
 <br><hr><br>
 
