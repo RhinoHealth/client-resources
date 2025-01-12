@@ -35,6 +35,13 @@ from nvflare.security.logging import secure_format_exception
 
 from coeff_optimizer import OPTIMIZERS
 
+INVALID_SIGNS = [
+    '<', '>', '=',
+    '+', '-', '*', '/', '//', '%', '**',
+    '(', ')', ':', '~', '|', '^', ',',
+    '.', "'", '"', '@', '#', '$',
+    '[', ']', '{', '}', '?', '!', ' '
+]  # These are signs that will fail the smf.glm function if they appear in the column name
 
 class GLMTrainer(Executor):
     def __init__(
@@ -81,14 +88,6 @@ class GLMTrainer(Executor):
         self.site_info = dict()
         print(f"Initialized Federated Client. {x_values=}, {y_values=}, {formula=}, {glm_type=}, {add_intercept=}, {cast_to_string_fields=}")
 
-        if not self.formula and not (self.x_values and self.y_values):
-            print("Either formula or x_values and y_values must be provided.")
-            raise ValueError("Either formula or x_values and y_values must be provided.")
-
-        if self.offset and self.family_class != sm.families.Poisson:
-            print("Offset is only supported for Poisson distribution family.")
-            raise ValueError("Offset is only supported for Poisson distribution family.")
-
         # Load dataset
         datasets_path = '/input/datasets'
         dataset_uid = next(os.walk(datasets_path))[1][0]
@@ -110,6 +109,38 @@ class GLMTrainer(Executor):
             self.data["Intercept"] = 1
             if self.data_x is not None:
                 self.data_x["Intercept"] = 1
+
+    def _validate_input(self):
+        """
+        Validate the input parameters for the model, including:
+        - Ensure that either formula or x_values and y_values are provided.
+        - Ensure that the supplied variables (either from formula or x_values and y_values) are present in the dataset.
+        - Ensure that the supplied variables do not contain invalid signs that will cause the model to fail.
+        - Ensure that the offset is only used with the Poisson distribution family.
+        """
+        # Validate either formula or explicit columns are supplied
+        if not self.formula and not (self.x_values and self.y_values):
+            print("Either formula or x_values and y_values must be provided.")
+            raise ValueError("Either formula or x_values and y_values must be provided.")
+
+        # Validate formula structure
+        if self.formula:
+            formula = self.formula.replace(" ", "")
+            dependent_var, independent_vars = formula.split("~")
+            formula_parts = independent_vars.split("+") + [dependent_var]
+        else:
+            formula_parts = self.x_values + self.y_values
+        missing_parts = [part for part in formula_parts if part not in self.data.columns]
+        if missing_parts:
+            raise ValueError(
+                f"The given {"formula" if formla else "y_values or x values"} contains variables that are missing from the data columns: {missing_parts}")
+        if any(sign in part for part in formula_parts for sign in INVALID_SIGNS):
+            raise ValueError(f"Column headers with the signs {INVALID_SIGNS} are invalid, please modify the dataset columns and the model's formula.")
+
+        # Validate use of offset
+        if self.offset and self.family_class != sm.families.Poisson:
+            print("Offset is only supported for Poisson distribution family.")
+            raise ValueError("Offset is only supported for Poisson distribution family.")
 
     def handle_event(self, event_type: str, fl_ctx: FLContext):
         pass

@@ -234,6 +234,7 @@ class IRLS(CoeffOptimizer):
         add_results["A_sum"] += data["site_ols_params"]['A']
         add_results["B_sum"] += data["site_ols_params"]['B']
         add_results["combined_hessian"] += data["site_hessian"]
+        add_results["exog_names"] = data["exog_names"]
 
     def get_result(self, add_results, contribution_round, target_accuracy, **kwargs):
         next_beta = np.linalg.inv(add_results["A_sum"]).dot(add_results["B_sum"])
@@ -246,13 +247,13 @@ class IRLS(CoeffOptimizer):
         # Stop if the result is already accurate enough
         if np.all(np.greater(target_accuracy, accuracy)):
             print(f"Reached accuracy threshold")
-            return None, {"beta": next_beta, "fed_stderror": fed_stderror, "signal": 'ABORT', "Reached accuracy threshold": True}
+            return None, {"beta": next_beta, "fed_stderror": fed_stderror, "variable_names_by_betas_order": data["exog_names"], "signal": 'ABORT', "Reached accuracy threshold": True}
 
         add_results["A_sum"] = 0
         add_results["B_sum"] = 0
         add_results["combined_hessian"] = 0
         print(f"next beta after contribution round {contribution_round} is {next_beta}")
-        return None, {"site_info": {"params": next_beta}, "beta": next_beta, "fed_stderror": fed_stderror, "Reached accuracy threshold": False}
+        return None, {"site_info": {"params": next_beta}, "beta": next_beta, "fed_stderror": fed_stderror, "variable_names_by_betas_order": data["exog_names"], "Reached accuracy threshold": False}
 
 
 OPTIMIZERS = {"NR": NewtonRaphson, "IRLS": IRLS}
