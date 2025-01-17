@@ -1,8 +1,6 @@
-nvflare==2.0.5
-pandas==1.4.1
-torch>=1.10,<1.11
-torchvision>=0.11.1,<0.12
-# Limit the version of protobuf, since nvflare doesn't do this but versions 3.21+ have breaking changes.
-# See: https://github.com/NVIDIA/NVFlare/issues/608
-protobuf<3.21
-cryptography==37.0.2
+nvflare == 2.5.1
+pandas ~= 2.2.3
+tensorboardX ~= 2.6.2
+torch ~= 2.2.1
+torchvision ~= 0.17.1
+scikit-learn ~= 1.5.2
