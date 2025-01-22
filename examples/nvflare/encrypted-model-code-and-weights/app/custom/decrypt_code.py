@@ -21,6 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("output_filename", help="output filename")
 
     args = parser.parse_args()
+    print("STARTING DECRYPTION")
 
     if not Path(args.input_filename).exists():
         print(f"File not found: {args.input_filename}", file=sys.stderr)

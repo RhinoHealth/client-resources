@@ -1,5 +1,6 @@
 {
   "format_version": 2,
+
   "server": {
     "heart_beat_timeout": 600
   },
@@ -13,7 +14,7 @@
         "model": {
           "path": "network.PneumoniaModel"
         },
-      "global_model_file_name": "/output/model_parameters.pt.enc"
+      "global_model_file_name": "/output/model_parameters.pt"
       }
     },
     {
@@ -27,6 +28,24 @@
       "args": {
         "expected_data_kind": "WEIGHTS"
       }
+    },
+    {
+      "id": "model_locator",
+      "path": "pt_model_locator.PTModelLocator",
+      "args": {
+
+      }
+    },
+    {
+      "id": "json_generator",
+      "path": "validation_json_generator.ValidationJsonGenerator",
+      "args": {
+      }
+    },
+    {
+      "id": "aggregate_validation_metric_tb_logger",
+      "path": "aggregate_validation_metric_tb_logger.AggregateValidationMetricTbLogger",
+      "args": {}
     }
   ],
   "workflows": [
@@ -34,7 +53,7 @@
         "id": "scatter_and_gather",
         "name": "ScatterAndGather",
         "args": {
-            "min_clients": 2,
+            "min_clients": 1,
             "num_rounds": 1,
             "start_round": 0,
             "wait_time_after_min_received": 10,
