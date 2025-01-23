@@ -1,8 +1,8 @@
 ## Conducting an end-to-end ML project using multimodal data from multiple hospitals
 
-![image info](https://drive.google.com/uc?export=view&id=1SkAZdWns-Xi8lxw7xQzRhc8jKsnOCfIL)
+![Model Sandbox Overview](./img/sandbox_overview.jpg)
 
-**Follow the Tutorial: [Here](https://docs.rhinohealth.com/hc/en-us/articles/15586509051549-Pneumonia-Prediction-Step-1-Scenario-FCP-Overview)**
+**Follow the Tutorial: <a target="_blank" href="https://docs.rhinohealth.com/hc/en-us/articles/15586509051549-Pneumonia-Prediction-Step-1-Scenario-FCP-Overview">Here</a>**
 
 ## Notebook 1: Import EHR and CXR Datasets
 In this step, we gain experience in importing multimodal datasets onto the Rhino FCP. We will use MIMIC-IV as the source to create datasets from a database that hosts EHR data. In addition, we will load CXR DICOM images, which are linked to the EHR tables using a mapping lookup table.
@@ -22,4 +22,4 @@ Visualize evaluation results
 
 
 Need Help?
-[Rhino Health Documenation Center](https://docs.rhinohealth.com/) or [support@rhinohealth.com](mailto:support@rhinohealth.com)
+<a target="_blank" href="https://docs.rhinohealth.com/">Rhino Health Documenation Center</a> or <a target="_blank" href="mailto:support@rhinohealth.com">support@rhinohealth.com</a>
